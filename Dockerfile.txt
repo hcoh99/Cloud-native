@@ -1,0 +1,16 @@
+FROM php:8.0-apache
+
+# 필요한 패키지 설치
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip && \
+    docker-php-ext-install mysqli && \
+    docker-php-ext-enable mysqli
+
+# Apache 설정 활성화
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
+RUN a2enmod rewrite
+
+# Apache 재시작
+CMD ["apache2-foreground"]

@@ -1,0 +1,65 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pro-mysql
+    ports:
+      - "33306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: php-mysql
+      MYSQL_USER: php-mysql
+      MYSQL_PASSWORD: 123456
+    volumes:
+      - db-data:/var/lib/mysql  # MySQL 데이터 디렉토리와 로컬 볼륨 연결
+    networks:
+      - pro-sql
+    command:
+      --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  myproxy:
+    image: jlesage/nginx-proxy-manager
+    container_name: myproxy
+    ports:
+      - "8181:8181"
+      - "80:8080"
+      - "443:4443"
+    volumes:
+      - nginx-config:/config  # Nginx Proxy Manager 설정 저장소
+    networks:
+      - pro-sql
+
+
+  mytaskapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mytaskapi
+    ports:
+      - "8012:80"
+    volumes:
+      - ~/pro-php/task:/var/www/html  # 작업 API 파일을 마운트
+    networks:
+      - pro-sql
+
+
+  pro-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pro-front
+    ports:
+      - "8011:80"
+    volumes:
+      - ~/pro-html:/var/www/html  # HTML, JS 파일을 마운트
+    networks:
+      - pro-sql
+
+networks:
+  pro-sql:
+    driver: bridge
+
+volumes:
+  db-data:  # MySQL 데이터 저장을 위한 볼륨
+  nginx-config:  # Nginx Proxy Manager 설정 저장을 위한 볼륨

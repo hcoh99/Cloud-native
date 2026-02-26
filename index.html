@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주차 예약 시스템</title>
+    <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,"> <!-- favicon 에러 방지 -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">주차 예약 시스템</h1>
+        <h2 class="text-center" id="total-amount">총 금액: 0원</h2>
+
+        <div class="row mt-4">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="parking-form">
+                            <div class="form-group">
+                                <label for="carNumber">차량 번호</label>
+                                <input type="text" id="carNumber" class="form-control" placeholder="차량 번호 입력" required>
+                            </div>
+                            <div class="d-flex justify-content-around">
+                                <button type="button" class="btn btn-primary" id="add-1-hour">1시간 추가</button>
+                                <button type="button" class="btn btn-success" id="add-2-hour">2시간 추가</button>
+                                <button type="button" class="btn btn-danger" id="add-3-hour">3시간 추가</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5>주차 기록</h5>
+                        <ul id="parking-list" class="list-group mt-3"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/app.js"></script>
+
+</body>
+</html>
